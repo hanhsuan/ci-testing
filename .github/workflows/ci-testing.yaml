@@ -1,0 +1,26 @@
+name: ci-testing-template
+
+on:
+  workflow_dispatch:
+    inputs:
+      location:
+        type: choice
+        description: cid location
+        options: 
+        - devices
+        - pc
+        required: true
+      cid:
+        type: string
+        required: true
+      image:
+        type: string
+        description: The image you would like to use
+
+jobs:
+  greet:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send greeting
+      run: echo "${{ github.event.inputs.location }} ${{ github.event.inputs.cid }} ${{ github.event.inputs.image }}"
