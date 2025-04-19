@@ -25,7 +25,7 @@ on:
         description: the os type
         required: true
 
-run-name: Testing ${{ github.event.inputs.cid }}
+run-name: Testing ${{ github.event.inputs.cid }} with ${{ github.event.inputs.os_type }}
 
 jobs:
   generate_config:
@@ -36,4 +36,13 @@ jobs:
       with:
         ref: ${{ github.event.inputs.branch || 'main' }}
     - name: echo settings
-      run: echo "${{ github.event.inputs.location }} ${{ github.event.inputs.cid }} ${{ github.event.inputs.image }}"
+      run: |
+        echo "branch [${{ github.event.inputs.branch }}]"
+        echo "location [${{ github.event.inputs.location }}]"
+        echo "cid [${{ github.event.inputs.cid }}]"
+        echo "image [${{ github.event.inputs.image }}]"
+        echo "os type [${{ github.event.inputs.os_type }}]"
+    - name: set launcher
+      run: |
+        echo "The default launcher:"
+        cat "${{ github.event.inputs.location }}/${{ github.event.inputs.cid }}/launcher"
