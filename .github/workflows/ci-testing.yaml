@@ -3,6 +3,9 @@ name: ci-testing-template
 on:
   workflow_dispatch:
     inputs:
+      branch:
+        type: string
+        description: Which branch you would like to use
       location:
         type: choice
         description: cid location
@@ -16,11 +19,21 @@ on:
       image:
         type: string
         description: The image you would like to use
+        required: true
+      os_type:
+        type: string
+        description: the os type
+        required: true
+
+run-name: Testing ${{ github.event.inputs.cid }}
 
 jobs:
-  greet:
+  generate_config:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Send greeting
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.inputs.branch || 'main' }}
+    - name: echo settings
       run: echo "${{ github.event.inputs.location }} ${{ github.event.inputs.cid }} ${{ github.event.inputs.image }}"
