@@ -37,7 +37,7 @@ jobs:
         ref: ${{ github.event.inputs.branch || 'main' }}
     - name: echo settings
       run: |
-        echo "branch [${{ github.event.inputs.branch }}]"
+        echo "branch [${{ github.event.inputs.branch || 'main' }}]"
         echo "location [${{ github.event.inputs.location }}]"
         echo "cid [${{ github.event.inputs.cid }}]"
         echo "image [${{ github.event.inputs.image }}]"
