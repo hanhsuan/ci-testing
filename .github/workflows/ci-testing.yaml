@@ -49,4 +49,4 @@ jobs:
     - name: set job
       run: |
         echo "The template job:"
-        cat "${{ github.event.inputs.location }}/${{ github.event.inputs.cid }}/${{ github.event.inputs.os_type }/tf.yaml"
+        cat "${{ github.event.inputs.location }}/${{ github.event.inputs.cid }}/${{ github.event.inputs.os_type }}/tf.yaml"
