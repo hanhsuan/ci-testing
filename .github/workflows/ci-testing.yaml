@@ -43,8 +43,10 @@ jobs:
         echo "image [${{ github.event.inputs.image }}]"
         echo "os type [${{ github.event.inputs.os_type }}]"
     - name: convert settings to JSON
+      env:
+        INPUT: ${{ toJson(github.event.inputs) }}
       run: |
-        echo '${{ toJson(github.event.inputs) }}' > input.json
+        echo "$INPUT" > input.json
         cat input.json
     - name: set launcher
       run: |
