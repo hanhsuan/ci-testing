@@ -46,3 +46,7 @@ jobs:
       run: |
         echo "The default launcher:"
         cat "${{ github.event.inputs.location }}/${{ github.event.inputs.cid }}/launcher"
+    - name: set job
+      run: |
+        echo "The template job:"
+        cat "${{ github.event.inputs.location }}/${{ github.event.inputs.cid }}/serial_24/os_type/tf.yaml"
