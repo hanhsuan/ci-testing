@@ -36,12 +36,6 @@ on:
       project:
         type: string
         description: the project of this DUT
-      dut_username:
-        type: string
-        description: The user for testing on DUT
-      dut_password:
-        type: string
-        description: The password for the testing user
       test_plan:
         type: string
         description: test plan for testing
