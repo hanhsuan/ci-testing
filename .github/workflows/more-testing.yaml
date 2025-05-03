@@ -1,0 +1,62 @@
+name: more-testing-template
+
+on:
+  workflow_dispatch:
+    inputs:
+      cid:
+        type: string
+        required: true
+      provision:
+        type: boolean
+        description: provision image or not
+      test:
+        type: boolean
+        description: executing checkbox test or not
+      image:
+        type: string
+        description: The image you would like to use
+      os_type:
+        type: choice
+        description: the os type
+        options:
+        - classic_server
+        - uc_server
+        - classic_desktop
+        - uc_desktop
+      os_release:
+        type: choice
+        description: the os release
+        options:
+        - "20.04"
+        - "22.04"
+        - "24.04"
+      checkbox_snap_name:
+        type: string
+        description: checkbox snap name
+      project:
+        type: string
+        description: the project of this DUT
+      dut_username:
+        type: string
+        description: The user for testing on DUT
+      dut_password:
+        type: string
+        description: The password for the testing user
+      test_plan:
+        type: string
+        description: test plan for testing
+      description:
+        type: string
+        description: test description
+jobs:
+  generate_config:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: convert settings to JSON
+      env:
+        INPUT: ${{ toJson(github.event.inputs) }}
+      run: |
+        echo "$INPUT" > input.json
+        cat input.json
