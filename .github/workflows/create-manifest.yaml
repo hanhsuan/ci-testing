@@ -51,7 +51,7 @@ jobs:
             git add ${LOCATION}/conf
         fi
         if [ -z "${MANIFEST}" ]; then
-            echo "${{ github.event.inputs.manifest }}" > ${LOCATION}/conf
+            echo "${MANIFEST}" > ${LOCATION}/manifest
             git add ${LOCATION}/manifest
         fi
         git push --set-upstream origin ${{ github.event.inputs.name }}
