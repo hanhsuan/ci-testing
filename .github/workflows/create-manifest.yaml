@@ -33,7 +33,7 @@ jobs:
     - uses: actions/checkout@v4
     - name: commit the content to the branch
       env:
-          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}/"
           MANIFEST: ${{ toJson(github.event.manifest) }}
       run: |
@@ -46,12 +46,12 @@ jobs:
         else
             git checkout -b "${{ github.event.inputs.name }}"
         fi
-        echo "${{ github.event.inputs.conf }}" > ${LOCATION}/conf
-        if [ -s "${LOCATION}/conf" ]; then
-            git add ${LOCATION}/conf
-        else
-            git restore ${LOCATION}/conf
-        fi
+        #echo "${{ github.event.inputs.conf }}" > ${LOCATION}/conf
+        #if [ -s "${LOCATION}/conf" ]; then
+        #    git add ${LOCATION}/conf
+        #else
+        #    git restore ${LOCATION}/conf
+        #fi
         if [ -z "${MANIFEST}" ]; then
             echo "${MANIFEST}" > ${LOCATION}/manifest
             git add ${LOCATION}/manifest
