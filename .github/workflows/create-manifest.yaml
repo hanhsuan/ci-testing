@@ -35,6 +35,7 @@ jobs:
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}/"
+          CONF: ${{ toJson(github.event.conf) }}
           MANIFEST: ${{ toJson(github.event.manifest) }}
       run: |
         git config user.name "${{ github.actor }}"
@@ -46,7 +47,7 @@ jobs:
         else
             git checkout -b "${{ github.event.inputs.name }}"
         fi
-        #echo "${{ github.event.inputs.conf }}" > ${LOCATION}/conf
+        #echo "${CONF}" > ${LOCATION}/conf
         #if [ -s "${LOCATION}/conf" ]; then
         #    git add ${LOCATION}/conf
         #else
