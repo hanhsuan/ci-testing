@@ -1,0 +1,56 @@
+name: update-manifest-template
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        type: string
+        description: the new branch name
+        required: true
+      project:
+        type: choice
+        description: folder
+        required: true
+        options:
+          - pc
+          - devices
+      conf:
+        type: string
+        description: the config content in ini format
+        required: true
+      manifest:
+        type: string
+        description: the manifest content in json format
+        required: true
+
+run-name: Create new branch or add commit to ${{ github.event.inputs.name }}
+
+jobs:
+  update_manifest:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: commit the content to the branch
+      env:
+          GH_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}/"
+      run: |
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+
+        git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }} >/dev/null 2>&1
+        if [ $? -eq 0 ]; then
+            git checkout ${{ github.event.inputs.name }}
+        else
+            git checkout -b ${{ github.event.inputs.name }}
+        fi
+        if [ "${{ github.event.inputs.conf }}" != "" ]; then
+            echo ${{ github.event.inputs.conf }} > ${LOCATION}/conf
+            git add ${LOCATION}/conf
+        fi
+        if [ "${{ github.event.inputs.manifest }}" != "" ]; then
+            echo ${{ github.event.inputs.manifest }} > ${LOCATION}/conf
+            git add ${LOCATION}/manifest
+        fi
+        git push --set-upstream origin ${{ github.event.inputs.name }}
