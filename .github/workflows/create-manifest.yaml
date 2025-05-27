@@ -42,16 +42,16 @@ jobs:
 
         git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }} >/dev/null 2>&1
         if [ $? -eq 0 ]; then
-            git checkout ${{ github.event.inputs.name }}
+            git checkout "${{ github.event.inputs.name }}"
         else
-            git checkout -b ${{ github.event.inputs.name }}
+            git checkout -b "${{ github.event.inputs.name }}"
         fi
         if [ "${{ github.event.inputs.conf }}" != "" ]; then
-            echo ${{ github.event.inputs.conf }} > ${LOCATION}/conf
+            echo "${{ github.event.inputs.conf }}" > ${LOCATION}/conf
             git add ${LOCATION}/conf
         fi
         if [ -z "${MANIFEST}" ]; then
-            echo ${{ github.event.inputs.manifest }} > ${LOCATION}/conf
+            echo "${{ github.event.inputs.manifest }}" > ${LOCATION}/conf
             git add ${LOCATION}/manifest
         fi
         git push --set-upstream origin ${{ github.event.inputs.name }}
