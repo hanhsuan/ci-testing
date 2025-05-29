@@ -44,10 +44,6 @@ jobs:
 
         MATCH_BRANCH=$(git ls-remote --heads origin ${BRANCH})
         if [ ${MATCH_BRANCH} == "" ]; then
-            git checkout -b "${BRANCH}"
-        else
-            git checkout "${BRANCH}"
-        if [ ${MATCH_BRANCH} == "" ]; then
             echo "Found branch ${BRANCH} on origin"
             if git rev-parse --verify "${BRANCH}" >/dev/null 2>&1; then
                 git checkout "${BRANCH}"
