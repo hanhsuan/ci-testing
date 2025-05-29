@@ -42,7 +42,7 @@ jobs:
         git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
         #git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }} >/dev/null 2>&1
-        MATCH_BRANCH=git ls-remote --heads origin ${{ github.event.inputs.name }}
+        MATCH_BRANCH=$(git ls-remote --heads origin ${{ github.event.inputs.name }})
         if [ ${MATCH_BRANCH} != "" ]; then
             git checkout "${{ github.event.inputs.name }}"
         else
