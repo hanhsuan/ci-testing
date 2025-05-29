@@ -37,25 +37,26 @@ jobs:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}/"
           CONF: ${{ toJson(github.event.conf) }}
           MANIFEST: ${{ toJson(github.event.manifest) }}
+          BRANCH: ${{ github.event.inputs.name }}
       run: |
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
-        #git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }} >/dev/null 2>&1
-        MATCH_BRANCH=$(git ls-remote --heads origin ${{ github.event.inputs.name }})
-        if [ ${MATCH_BRANCH} != "" ]; then
-            git checkout "${{ github.event.inputs.name }}"
+        MATCH_BRANCH=$(git ls-remote --heads origin ${BRANCH})
+        if [ ${MATCH_BRANCH} == "" ]; then
+            git checkout -b "${BRANCH}"
         else
-            git checkout -b "${{ github.event.inputs.name }}"
-        fi
-        echo "${CONF}" > ${LOCATION}/conf
-        if [ -s "${LOCATION}/conf" ]; then
-            git add ${LOCATION}/conf
+            git checkout "${BRANCH}"
+        if [ ${MATCH_BRANCH} == "" ]; then
+            echo "Found branch ${BRANCH} on origin"
+            if git rev-parse --verify "${BRANCH}" >/dev/null 2>&1; then
+                git checkout "${BRANCH}"
+                git pull origin "${BRANCH}"
+            else
+                git checkout -b "${BRANCH}" origin/"${BRANCH}"
+            fi
         else
-            git restore ${LOCATION}/conf
+            echo "Create new branch ${BRANCH}"
+            git checkout -b "${BRANCH}"
+            git push --set-upstream origin "${BRANCH}"
         fi
-        if [ -z "${MANIFEST}" ]; then
-            echo "${MANIFEST}" > ${LOCATION}/manifest
-            git add ${LOCATION}/manifest
-        fi
-        git push --set-upstream origin ${{ github.event.inputs.name }}
