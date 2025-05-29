@@ -43,6 +43,7 @@ jobs:
 
         #git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }} >/dev/null 2>&1
         git ls-remote --heads origin ${{ github.event.inputs.name }}
+        echo "return code [$?]"
         #if [ $? -eq 0 ]; then
         #    git checkout "${{ github.event.inputs.name }}"
         #else
