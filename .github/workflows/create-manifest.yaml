@@ -42,21 +42,20 @@ jobs:
         git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
 
         #git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }} >/dev/null 2>&1
-        git ls-remote --exit-code --heads origin ${{ github.event.inputs.name }}
-        echo "return code [$?]"
-        #if [ $? -eq 0 ]; then
-        #    git checkout "${{ github.event.inputs.name }}"
-        #else
-        #    git checkout -b "${{ github.event.inputs.name }}"
-        #fi
-        #echo "${CONF}" > ${LOCATION}/conf
-        #if [ -s "${LOCATION}/conf" ]; then
-        #    git add ${LOCATION}/conf
-        #else
-        #    git restore ${LOCATION}/conf
-        #fi
-        #if [ -z "${MANIFEST}" ]; then
-        #    echo "${MANIFEST}" > ${LOCATION}/manifest
-        #    git add ${LOCATION}/manifest
-        #fi
-        #git push --set-upstream origin ${{ github.event.inputs.name }}
+        MATCH_BRANCH=git ls-remote --heads origin ${{ github.event.inputs.name }}
+        if [ ${MATCH_BRANCH} != "" ]; then
+            git checkout "${{ github.event.inputs.name }}"
+        else
+            git checkout -b "${{ github.event.inputs.name }}"
+        fi
+        echo "${CONF}" > ${LOCATION}/conf
+        if [ -s "${LOCATION}/conf" ]; then
+            git add ${LOCATION}/conf
+        else
+            git restore ${LOCATION}/conf
+        fi
+        if [ -z "${MANIFEST}" ]; then
+            echo "${MANIFEST}" > ${LOCATION}/manifest
+            git add ${LOCATION}/manifest
+        fi
+        git push --set-upstream origin ${{ github.event.inputs.name }}
