@@ -30,7 +30,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: hanhsuan/branch-switch@main
+      with:
+        branch: ${{ github.event.inputs.name }}
+        create: true
     - name: commit the content to the branch
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,20 +42,7 @@ jobs:
           MANIFEST: ${{ toJson(github.event.manifest) }}
           BRANCH: ${{ github.event.inputs.name }}
       run: |
-        git config user.name "${{ github.actor }}"
-        git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-
-        MATCH_BRANCH=$(git ls-remote --heads origin ${BRANCH})
-        if [ ${MATCH_BRANCH} == "" ]; then
-            echo "Found branch ${BRANCH} on origin"
-            if git rev-parse --verify "${BRANCH}" >/dev/null 2>&1; then
-                git checkout "${BRANCH}"
-                git pull origin "${BRANCH}"
-            else
-                git checkout -b "${BRANCH}" origin/"${BRANCH}"
-            fi
-        else
-            echo "Create new branch ${BRANCH}"
-            git checkout -b "${BRANCH}"
-            git push --set-upstream origin "${BRANCH}"
-        fi
+        echo "$(CONF)" > ${LOCATION}/conf
+        echo "$(MANIFEST)" > ${LOCATION}/manifest
+        cat ${LOCATION}/conf
+        cat ${LOCATION}/manifest

@@ -1,0 +1,38 @@
+name: Branch switch
+
+description: 'GitHub Action to switch to the branch.'
+inputs:
+  branch:
+    description: 'Branch name to switch to'
+    type: string
+    required: true
+  create:
+    description: 'Create the branch if it is not exist'
+    type: boolean
+    required: true
+    default: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Check if branch exists
+      id: check-branch-exists
+      shell: bash
+      run: |
+          if [[ -n $(git ls-remote --heads origin ${{ inputs.branch }}) ]]; then
+              echo "exists=true" >> $GITHUB_OUTPUT
+          else
+              echo "exists=false" >> $GITHUB_OUTPUT          
+          fi
+      shell: bash
+    - name: Switch to branch
+      shell: bash
+      run: |
+          if [ "${{ steps.check-branch-exists.outputs.exists }}" == true ]; then
+              git checkout ${{ inputs.branch }}
+              git push origin ${{ inputs.branch }}
+          else
+              git checkout -b ${{ inputs.branch }}
+              git push origin ${{ inputs.branch }}
