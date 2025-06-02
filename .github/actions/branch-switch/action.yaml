@@ -29,9 +29,10 @@ runs:
     - name: Switch to branch
       shell: bash
       run: |
-          if [ "${{ steps.check-branch-exists.outputs.exists }}" == true ]; then
+          if [ "${{ steps.check-branch-exists.outputs.exists }}" == "true" ]; then
               git checkout ${{ inputs.branch }}
               git push origin ${{ inputs.branch }}
           else
               git checkout -b ${{ inputs.branch }}
               git push origin ${{ inputs.branch }}
+          fi
