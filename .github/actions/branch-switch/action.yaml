@@ -6,6 +6,10 @@ inputs:
     description: 'Branch name to switch to'
     type: string
     required: true
+  github-token:
+    description: 'The GITHUB_TOKEN'
+    type: string
+    required: true
   create:
     description: 'Create the branch if it is not exist'
     type: boolean
@@ -29,7 +33,7 @@ runs:
     - name: Switch to branch
       shell: bash
       env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ inputs.github-token }}
       run: |
           if [ "${{ steps.check-branch-exists.outputs.exists }}" == "true" ]; then
               git checkout ${{ inputs.branch }}
