@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: hanhsuan/branch-switch@main
+    - uses: hanhsuan/.github/actions/branch-switch@main
       with:
         branch: ${{ github.event.inputs.name }}
         create: true
