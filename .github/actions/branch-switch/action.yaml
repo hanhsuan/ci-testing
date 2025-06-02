@@ -28,7 +28,8 @@ runs:
           fi
     - name: Switch to branch
       shell: bash
-      secrets: inherit
+      env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
           if [ "${{ steps.check-branch-exists.outputs.exists }}" == "true" ]; then
               git checkout ${{ inputs.branch }}
