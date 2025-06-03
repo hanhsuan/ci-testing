@@ -51,7 +51,7 @@ jobs:
             echo "exists=false" >> $GITHUB_OUTPUT
         fi
     - name: commit the content
-      if: ${{ steps.create-update-content.outputs.exists }} == true
+      if: ${{ steps.create-update-content.outputs.exists  == 'true' }}
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
