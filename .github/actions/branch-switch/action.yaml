@@ -41,8 +41,9 @@ runs:
                   git checkout ${{ inputs.branch }}
                   git pull origin ${{ inputs.branch }}
               else
-                  git checkout -b ${{ inputs.branch }} origin/${{ inputs.branch }}
+                  git checkout -b ${{ inputs.branch }} --track remotes/origin/${{ inputs.branch }}
               fi
           else
               git checkout -b ${{ inputs.branch }}
+              git push --set-upstream origin ${{ inputs.branch }}
           fi
