@@ -42,7 +42,7 @@ jobs:
           MANIFEST: ${{ toJson(github.event.inputs.manifest) }}
       run: |
         mkdir -p ${LOCATION}
-        echo "${{ github.event.inputs.conf }}" > ${LOCATION}/conf
-        echo "${{ github.event.inputs.manifest }}" | jq -r . > ${LOCATION}/manifest
+        echo '${{ github.event.inputs.conf }}' > ${LOCATION}/conf
+        echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest
         cat ${LOCATION}/conf
         cat ${LOCATION}/manifest
