@@ -38,10 +38,11 @@ jobs:
     - name: commit the content to the branch
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}/"
+          LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
           CONF: ${{ toJson(github.event.conf) }}
           MANIFEST: ${{ toJson(github.event.manifest) }}
       run: |
+        ls
         echo "${CONF}" > ${LOCATION}/conf
         echo "${MANIFEST}" > ${LOCATION}/manifest
         cat ${LOCATION}/conf
