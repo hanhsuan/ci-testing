@@ -35,14 +35,35 @@ jobs:
         branch: ${{ github.event.inputs.name }}
         create: true
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: commit the content to the branch
+    - name: create/update the content
+      id: create-update-content
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
-          MANIFEST: ${{ toJson(github.event.inputs.manifest) }}
       run: |
         mkdir -p ${LOCATION}
         echo '${{ github.event.inputs.conf }}' > ${LOCATION}/conf
         echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest
-        cat ${LOCATION}/conf
-        cat ${LOCATION}/manifest
+        if ! git diff --quiet ; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+        else
+            echo "No changes to commit."
+            echo "exists=false" >> $GITHUB_OUTPUT
+        fi
+    - name: commit the content
+      if: ${{ steps.create-update-content.outputs.exists }}
+      env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
+      run: |
+        git config user.name "${{ github.actor }}"
+        git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+        git add ${LOCATION}/conf ${LOCATION}/manifest
+        git commit -m "update manifest for ${{ github.event.inputs.name }}"
+        git push origin ${{ github.event.inputs.name }}
+        gh pr create \
+        --title "Update config for ${{ github.event.inputs.name }}" \
+        --body "This PR was auto-generated to create/update the config for ${{ github.event.inputs.name }}." \
+        --base main \
+        --head ${{ github.event.inputs.name }}
+        echo "A PR auto-generated to create/update config submitted!"
