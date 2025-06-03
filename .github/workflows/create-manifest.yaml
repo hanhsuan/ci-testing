@@ -28,7 +28,7 @@ jobs:
   update_manifest:
     runs-on: ubuntu-latest
     permissions:
-      content: write
+      contents: write
     steps:
     - uses: hanhsuan/ci-testing/.github/actions/branch-switch@main
       with:
