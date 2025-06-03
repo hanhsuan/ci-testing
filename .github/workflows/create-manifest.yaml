@@ -42,7 +42,7 @@ jobs:
           CONF: ${{ toJson(github.event.conf) }}
           MANIFEST: ${{ toJson(github.event.manifest) }}
       run: |
-        echo "$(CONF)" > ${LOCATION}/conf
-        echo "$(MANIFEST)" > ${LOCATION}/manifest
+        echo "${CONF}" > ${LOCATION}/conf
+        echo "${MANIFEST}" > ${LOCATION}/manifest
         cat ${LOCATION}/conf
         cat ${LOCATION}/manifest
