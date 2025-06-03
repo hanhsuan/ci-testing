@@ -27,6 +27,8 @@ run-name: Create new branch or add commit to ${{ github.event.inputs.name }}
 jobs:
   update_manifest:
     runs-on: ubuntu-latest
+    permissions:
+      content: write
     steps:
     - uses: hanhsuan/ci-testing/.github/actions/branch-switch@main
       with:
