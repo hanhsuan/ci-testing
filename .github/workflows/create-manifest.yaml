@@ -62,9 +62,3 @@ jobs:
         git add ${LOCATION}/conf ${LOCATION}/manifest
         git commit -m "update manifest for ${{ github.event.inputs.name }}"
         git push origin ${{ github.event.inputs.name }}
-        #gh pr create \
-        #--title "Update config for ${{ github.event.inputs.name }}" \
-        #--body "This PR was auto-generated to create/update the config for ${{ github.event.inputs.name }}." \
-        #--base main \
-        #--head ${{ github.event.inputs.name }}
-        #echo "A PR auto-generated to create/update config submitted!"
