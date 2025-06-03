@@ -39,9 +39,10 @@ jobs:
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
+          MANIFEST: ${{ toJson(github.event.inputs.manifest) }}
       run: |
         mkdir -p ${LOCATION}
         echo "${{ github.event.inputs.conf }}" > ${LOCATION}/conf
-        echo "${{ toJson(github.event.inputs.manifest) }}" > ${LOCATION}/manifest
+        echo "${{ github.event.inputs.manifest }}" | jq -r . > ${LOCATION}/manifest
         cat ${LOCATION}/conf
         cat ${LOCATION}/manifest
