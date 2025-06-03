@@ -41,7 +41,6 @@ jobs:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}/"
           CONF: ${{ toJson(github.event.conf) }}
           MANIFEST: ${{ toJson(github.event.manifest) }}
-          BRANCH: ${{ github.event.inputs.name }}
       run: |
         echo "$(CONF)" > ${LOCATION}/conf
         echo "$(MANIFEST)" > ${LOCATION}/manifest
