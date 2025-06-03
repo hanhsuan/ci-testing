@@ -42,6 +42,7 @@ runs:
                   git pull origin ${{ inputs.branch }}
               else
                   git checkout -b ${{ inputs.branch }} origin/${{ inputs.branch }}
+              fi
           else
               git checkout -b ${{ inputs.branch }}
           fi
