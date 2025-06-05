@@ -52,7 +52,7 @@ jobs:
         mkdir -p ${LOCATION}
         echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest.json
         git status -s
-        echo "git stauts -s return code [$]?"
+        echo "git stauts -s return code [$?]"
         if  git status -s ; then
             echo "exists=true" >> $GITHUB_OUTPUT
         else
