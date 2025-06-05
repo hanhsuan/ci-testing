@@ -51,12 +51,11 @@ jobs:
       run: |
         mkdir -p ${LOCATION}
         echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest.json
-        git diff --quiet --exit-code
-        if [ $? -ne 0 ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-        else
+        if [ -z "$(git status --porcelain)" ]; then
             echo "No changes to commit."
             echo "exists=false" >> $GITHUB_OUTPUT
+        else
+            echo "exists=true" >> $GITHUB_OUTPUT
         fi
     - name: commit the content
       if: ${{ steps.create-update-content.outputs.exists  == 'true' }}
