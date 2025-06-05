@@ -66,6 +66,10 @@ jobs:
         echo "output ${{ steps.create-update-content.outputs.exists }}"
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
-        git add ${LOCATION}/checkbox.conf ${LOCATION}/manifest.json
+        if [ "${{ inputs.default_checkbox_conf }}" == "true " ]; then
+            git add ${LOCATION}/checkbox.conf ${LOCATION}/manifest.json
+        else
+            git add ${LOCATION}/manifest.json
+        fi
         git commit -m "update content for ${{ github.event.inputs.name }}"
         git push origin ${{ github.event.inputs.name }}
