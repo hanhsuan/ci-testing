@@ -42,9 +42,10 @@ jobs:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
       run: |
         pip install git+https://github.com/pixelb/crudini.git#egg=crudini
-        echo '${{ github.event.inputs.conf }}' | crudini --ini-options=ignoreindent --format=lines --get -
+        crudini --ini-options=ignoreindent --format=lines --get -
         mkdir -p ${LOCATION}
         echo '${{ github.event.inputs.conf }}' > ${LOCATION}/conf
+        crudini --ini-options=ignoreindent --format=lines --get ${LOCATION}/conf
         echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest
         if ! git diff --quiet ; then
             echo "exists=true" >> $GITHUB_OUTPUT
