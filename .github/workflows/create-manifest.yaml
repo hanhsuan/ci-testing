@@ -13,10 +13,6 @@ on:
         options:
           - pc
           - devices
-      conf:
-        type: string
-        description: the config content in ini format
-        required: true
       manifest:
         type: string
         description: the manifest content in json format
@@ -42,7 +38,7 @@ jobs:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
       run: |
         mkdir -p ${LOCATION}
-        echo '${{ github.event.inputs.conf }}' > ${LOCATION}/conf
+        curl -L https://raw.githubusercontent.com/canonical/oem-qa-tools/refs/heads/main/Tools/PC/oem-qa-checkbox-installer/conf/plainbox.conf -o ${LOCATION}/conf
         echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest
         if ! git diff --quiet ; then
             echo "exists=true" >> $GITHUB_OUTPUT
