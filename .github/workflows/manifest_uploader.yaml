@@ -51,7 +51,7 @@ jobs:
       run: |
         mkdir -p ${LOCATION}
         echo '${{ github.event.inputs.manifest }}' | jq -r . > ${LOCATION}/manifest.json
-        if ! git status -s ; then
+        if  git status -s ; then
             echo "exists=true" >> $GITHUB_OUTPUT
         else
             echo "No changes to commit."
