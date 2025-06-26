@@ -1,0 +1,31 @@
+name: input to matrix
+
+on:
+  workflow_dispatch:
+    inputs:
+      cid:
+        type: string
+        required: true
+      branch:
+        type: string
+        description: Which branch you would like to use
+      image:
+        type: string
+        description: The image you would like to use
+        required: true
+
+run-name: Testing ${{ github.event.inputs.cid }} with ${{ github.event.inputs.image }}
+
+jobs:
+  generate_config:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dut: ${{ fromJson(format('[{0}]', inputs.cid)) }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.inputs.branch || 'main' }}
+    - name: echo
+      run: |
+        echo ${{ matrix.dut }}
