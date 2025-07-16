@@ -1,0 +1,13 @@
+name: Test to use python inside reusable action
+
+description: 'Test to use python inside reusable action'
+
+runs:
+  using: "composite"
+  steps:
+    - uses: actions/setup-python@v4
+      with:
+        python-version: '3'
+        cache: 'pip'
+    - run: test.py
+      shell: bash
