@@ -49,7 +49,7 @@ jobs:
           python -m pip install --upgrade pip
           # No specific dependencies needed for this simple script, but good practice.
 
-      - name: Generate GitHub Page
+      - name: Generate GitHub Page (index.html)
         run: |
           python - <<EOF
           import json
@@ -97,11 +97,12 @@ jobs:
               """
 
               for entry in manifest_entries:
+                  # Escaping curly braces for GitHub Actions parser
                   html_content += f"""
                                   <tr class="hover:bg-gray-50">
-                                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-bl-lg">{entry}</td>
+                                      <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-bl-lg">{{{{entry}}}}</td>
                                       <td class="px-6 py-4 whitespace-nowrap text-center">
-                                          <input type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 checkbox-item" data-entry="{entry}">
+                                          <input type="checkbox" class="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 checkbox-item" data-entry="{{{{entry}}}}">
                                       </td>
                                   </tr>
                   """
