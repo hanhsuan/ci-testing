@@ -36,7 +36,7 @@ jobs:
         id: extract_entries
         run: |
           # Extract "manifest entry" values into a JSON array
-          jq -c '[.[] | ."manifest entry"]' manifest.json > manifest_entries.json
+          jq -c '.[] | select(.unit == "manifest entry") | {id}' manifest.json  > manifest_entries.json
           echo "Extracted manifest entries to manifest_entries.json"
 
       - name: Generate GitHub Page (index.html)
