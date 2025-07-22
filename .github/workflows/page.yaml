@@ -104,8 +104,8 @@ jobs:
                       document.querySelectorAll('.checkbox-item').forEach(checkbox => {
                           checkbox.addEventListener('change', (event) => {
                               const entry = event.target.dataset.entry;
-                              checkboxStates[entry.id] = event.target.checked;
-                              console.log(\`Checkbox for "\${entry.id}" is now: \${checkboxStates[entry.id]}\`);
+                              checkboxStates[entry] = event.target.checked;
+                              console.log(\`Checkbox for "\${entry}" is now: \${checkboxStates[entry]}\`);
                           });
                       });
 
@@ -114,7 +114,7 @@ jobs:
                           const dataToDownload = {};
                           // Populate dataToDownload with current states from checkboxStates
                           for (const entry in checkboxStates) {
-                              dataToDownload[entry.id] = checkboxStates[entry.id];
+                              dataToDownload[entry] = checkboxStates[entry];
                           }
 
                           const jsonString = JSON.stringify(dataToDownload, null, 2);
