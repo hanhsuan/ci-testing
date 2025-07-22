@@ -87,9 +87,9 @@ jobs:
                       </button>
                   </div>
 
-                  <script id="manifest-data" type="application/json">
-                      ${MANIFEST_ENTRIES_JSON}
-                  </script>
+                  //<script id="manifest-data" type="application/json">
+                  //    ${MANIFEST_ENTRIES_JSON}
+                  //</script>
                   <script>
                       // Initial manifest entries (from the embedded JSON script tag)
                       const initialManifestEntries = JSON.parse(document.getElementById('manifest-data').textContent);
