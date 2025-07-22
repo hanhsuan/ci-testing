@@ -49,7 +49,7 @@ jobs:
           python -m pip install --upgrade pip
           # No specific dependencies needed for this simple script, but good practice.
 
-      - name: Generate GitHub Page (index.html)
+      - name: Generate GitHub Page
         run: |
           python - <<EOF
           import json
