@@ -97,15 +97,15 @@ jobs:
 
                       // Initialize checkbox states (all false initially)
                       initialManifestEntries.forEach(entry => {
-                          checkboxStates[entry] = false;
+                          checkboxStates[entry.id] = false;
                       });
 
                       // Get all checkboxes and attach event listeners
                       document.querySelectorAll('.checkbox-item').forEach(checkbox => {
                           checkbox.addEventListener('change', (event) => {
                               const entry = event.target.dataset.entry;
-                              checkboxStates[entry] = event.target.checked;
-                              console.log(\`Checkbox for "\${entry}" is now: \${checkboxStates[entry]}\`);
+                              checkboxStates[entry.id] = event.target.checked;
+                              console.log(\`Checkbox for "\${entry.id}" is now: \${checkboxStates[entry.id]}\`);
                           });
                       });
 
@@ -114,7 +114,7 @@ jobs:
                           const dataToDownload = {};
                           // Populate dataToDownload with current states from checkboxStates
                           for (const entry in checkboxStates) {
-                              dataToDownload[entry] = checkboxStates[entry];
+                              dataToDownload[entry.id] = checkboxStates[entry.id];
                           }
 
                           const jsonString = JSON.stringify(dataToDownload, null, 2);
