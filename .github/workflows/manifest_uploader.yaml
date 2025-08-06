@@ -61,10 +61,10 @@ jobs:
           fi
         elif [ -f "${LOCATION}/manifest.json" ]; then
           echo "4"
-          echo "MANIFEST=$(cat ${LOCATION}/manifest.json)" >> $GITHUB_ENV
+          echo "MANIFEST=$(jq -r '.' ${LOCATION}/manifest.json)" >> $GITHUB_ENV
         else
           echo "5"
-          echo "MANIFEST=$(cat ${{ github.event.inputs.project }}/default/manifest.json)" >> $GITHUB_ENV
+          echo "MANIFEST=$(jq -r '.' ${{ github.event.inputs.project }}/default/manifest.json)" >> $GITHUB_ENV
         fi
     - name: create/update the content
       id: create-update-content
