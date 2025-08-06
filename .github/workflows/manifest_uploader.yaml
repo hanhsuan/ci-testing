@@ -57,9 +57,9 @@ jobs:
             echo "MANIFEST=${{ github.event.inputs.manifest }}" >> $GITHUB_ENV
           fi
         elif [ -f "${LOCATION}/manifest.json" ]; then
-          echo "MANIFEST=$(cat ${LOCATION}/manifest.json)" >> $GITHUB_ENV
+          echo "MANIFEST=\"$(cat ${LOCATION}/manifest.json)\"" >> $GITHUB_ENV
         else
-          echo "MANIFEST=$(cat ${{ github.event.inputs.project }}/default/manifest.json)" >> $GITHUB_ENV
+          echo "MANIFEST=\"$(cat ${{ github.event.inputs.project }}/default/manifest.json)\"" >> $GITHUB_ENV
         fi
     - name: create/update the content
       id: create-update-content
