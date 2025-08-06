@@ -20,7 +20,7 @@ on:
       manifest:
         type: string
         description: the manifest content in json format
-        required: true
+        required: false
 
 run-name: Create new branch or add commit to ${{ github.event.inputs.name }}
 
