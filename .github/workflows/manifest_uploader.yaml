@@ -47,10 +47,9 @@ jobs:
       env:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
       run: |
-        echo "${{ github.event.inputs.manifest }}" | jq -r . > tmp.json
+        echo '${{ github.event.inputs.manifest }}' | jq -r . > tmp.json
         if [ -s tmp.json ]; then
           if [ -f "${LOCATION}/manifest.json" ];then
-            echo "${{ github.event.inputs.manifest }}" | jq -r . > tmp.json
             NEW_MANIFEST=$(jq -s '.[0] * .[1]' "${LOCATION}/manifest.json" tmp.json)
             echo "MANIFEST=${NEW_MANIFEST}" >> $GITHUB_ENV
           else
