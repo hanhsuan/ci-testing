@@ -68,7 +68,7 @@ jobs:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
       run: |
         mkdir -p ${LOCATION}
-        echo ${MANIFEST} | jq -r . > ${LOCATION}/manifest.json
+        echo ${MANIFEST} | jq -r 'fromjson' > ${LOCATION}/manifest.json
         if [ -z "$(git status --porcelain)" ]; then
             echo "No changes to commit."
             echo "exists=false" >> $GITHUB_OUTPUT
