@@ -47,11 +47,11 @@ jobs:
       env:
           LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
       run: |
-        if [ -n '${{ github.event.inputs.manifest }}' ]; then
+        echo "${{ github.event.inputs.manifest }}" | jq -r . > tmp.json
+        if [ -s tmp.json ]; then
           if [ -f "${LOCATION}/manifest.json" ];then
             echo "${{ github.event.inputs.manifest }}" | jq -r . > tmp.json
             NEW_MANIFEST=$(jq -s '.[0] * .[1]' "${LOCATION}/manifest.json" tmp.json)
-            rm tmp.json
             echo "MANIFEST=${NEW_MANIFEST}" >> $GITHUB_ENV
           else
             echo "MANIFEST=${{ github.event.inputs.manifest }}" >> $GITHUB_ENV
@@ -61,6 +61,7 @@ jobs:
         else
           echo "MANIFEST=$(jq -c tostring ${{ github.event.inputs.project }}/default/manifest.json)" >> $GITHUB_ENV
         fi
+        rm tmp.json
     - name: create/update the content
       id: create-update-content
       env:
