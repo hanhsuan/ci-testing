@@ -44,9 +44,20 @@ jobs:
         # github action could not support input ini file in the input field. Therefore, copy the default value
         curl -L https://raw.githubusercontent.com/canonical/oem-qa-tools/refs/heads/main/Tools/PC/oem-qa-checkbox-installer/conf/plainbox.conf -o ${LOCATION}/checkbox.conf
     - name: set the manifest content
+      env:
+          LOCATION: "${{ github.event.inputs.project }}/${{ github.event.inputs.name }}"
       run: |
         if [ -n "${{ github.event.inputs.manifest }}" ]; then
-          echo "MANIFEST=${{ github.event.inputs.manifest }}" >> $GITHUB_ENV
+          if [ -f "${LOCATION}/manifest.json" ];then
+            echo "${{ github.event.inputs.manifest }}" | jq -r . > tmp.json
+            NEW_MANIFEST=$(jq -s '.[0] * .[1]' "${LOCATION}/manifest.json" tmp.json)
+            rm tmp.json
+            echo "MANIFEST=${NEW_MANIFEST}" >> $GITHUB_ENV
+          else
+            echo "MANIFEST=${{ github.event.inputs.manifest }}" >> $GITHUB_ENV
+          fi
+        elif [ -f "${LOCATION}/manifest.json" ]
+          echo "MANIFEST=$(cat ${LOCATION}/manifest.json)" >> $GITHUB_ENV
         else
           echo "MANIFEST=$(cat ${{ github.event.inputs.project }}/default/manifest.json)" >> $GITHUB_ENV
         fi
