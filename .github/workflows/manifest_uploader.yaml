@@ -50,7 +50,7 @@ jobs:
         echo '${{ github.event.inputs.manifest }}' | jq -r . > tmp.json
         if [ -s tmp.json ]; then
           if [ -f "${LOCATION}/manifest.json" ];then
-            NEW_MANIFEST=$(jq -s '.[0] * .[1]' "${LOCATION}/manifest.json" tmp.json)
+            NEW_MANIFEST=$(jq -s '.[0] * .[1]' "${LOCATION}/manifest.json" tmp.json| jq -c tostring)
             echo "MANIFEST=${NEW_MANIFEST}" >> $GITHUB_ENV
           else
             echo "MANIFEST=${{ github.event.inputs.manifest }}" >> $GITHUB_ENV
