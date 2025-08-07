@@ -36,7 +36,7 @@ jobs:
         id: extract_entries
         run: |
           # Extract "manifest entry" values into a JSON array
-          jq -c '[.[] | select(.unit == "manifest entry") | {id}]' manifest.json  > manifest_entries.json
+          jq -c '[.[] | select(.unit == "manifest entry") | {id, _name}]' manifest.json  > manifest_entries.json
           echo "Extracted manifest entries to manifest_entries.json"
 
       - name: Generate GitHub Page (index.html)
@@ -45,7 +45,7 @@ jobs:
           MANIFEST_ENTRIES_JSON=$(cat manifest_entries.json)
 
           # Generate HTML table rows using jq
-          TABLE_ROWS=$(jq -r '.[] | .id |"                                  <tr class=\"hover:bg-gray-50\">\n                                      <td class=\"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-bl-lg\">\(.)</td>\n                                      <td class=\"px-6 py-4 whitespace-nowrap text-center\">\n                                          <input type=\"checkbox\" class=\"h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 checkbox-item\" data-entry=\"\(.)\">\n                                      </td>\n                                  </tr>"' manifest_entries.json)
+          TABLE_ROWS=$(jq -r '.[] | "                                  <tr class=\"hover:bg-gray-50\">\n                                      <td class=\"px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 rounded-bl-lg\">\(._name)</td>\n                                      <td class=\"px-6 py-4 whitespace-nowrap text-center\">\n                                          <input type=\"checkbox\" class=\"h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 checkbox-item\" data-entry=\"\(.id)\">\n                                      </td>\n                                  </tr>"' manifest_entries.json)
 
           # Construct the full index.html file
           cat << EOF > index.html
