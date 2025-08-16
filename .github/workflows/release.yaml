@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
+
+    - name: get ubuntu codename
       id: get_codename
       run: |
         echo "CODENAME=$(lsb_release -cs)" >> $GITHUB_ENV
