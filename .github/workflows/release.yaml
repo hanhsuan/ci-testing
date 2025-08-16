@@ -12,14 +12,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v5
-      shell: bash
       id: get_codename
       run: |
         echo "CODENAME=$(lsb_release -cs)" >> $GITHUB_ENV
         echo "Codename is $CODENAME"
     
     - name: Check if tag exists
-      shell: bash
       id: check_tag
       run: |
         if git show-ref --tags --verify --quiet "refs/tags/${CODENAME}"; then
@@ -29,7 +27,6 @@ jobs:
         fi
     
     - name: Create tag if it does not exist
-      shell: bash
       if: steps.check_tag.outputs.tag_exists == 'false'
       run: |
         git config user.name "${{ github.actor }}"
@@ -38,7 +35,6 @@ jobs:
         git push origin ${{ steps.set_tag_name.outputs.tag_name }}
     
     - name: Create release if tag was created
-      shell: bash
       if: steps.check_tag.outputs.tag_exists == 'false'
       env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
