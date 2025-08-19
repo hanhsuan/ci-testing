@@ -30,12 +30,30 @@ jobs:
 
       - name: Generate manifest.json
         run: |
-          checkbox-cli expand com.canonical.certification::client-cert-desktop-24-04 -f json > manifest.json
+          checkbox-cli expand com.canonical.certification::client-cert-desktop-24-04 -f json > full_manifest.json
+          checkbox-cli expand com.canonical.certification::client-cert-desktop-24-04-automated -f json > auto_manifest.json
 
-      - name: Generate GitHub Page (index.html)
+      - name: Generate GitHub Page (pc-full.html)
         uses: hanhsuan/ci-testing/.github/actions/manifest_select@main
         with:
-          checkbox_expend: manifest.json
+          checkbox_expend: full_manifest.json
+
+      - name: rename to pc-full.html
+        run: |
+          mv index.html pc-full.html
+
+      - name: Generate GitHub Page (pc-auto.html)
+        uses: hanhsuan/ci-testing/.github/actions/manifest_select@main
+        with:
+          checkbox_expend: auto_manifest.json
+
+      - name: rename to pc-auto.html
+        run: |
+          mv index.html pc-auto.html
+
+      - name: Create index.html for multiple page
+        run: |
+          echo "<a href=\"pc-auto.html">PC Auto</a>\n<a href=\"pc-full.html">PC Full</a>" > index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
