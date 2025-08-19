@@ -12,6 +12,7 @@ runs:
   steps:
       - name: Extract manifest entries and prepare for HTML generation
         id: extract_entries
+        shell: bash
         run: |
           # Extract "manifest entry" values into a JSON array
           jq -c '[.[] | select(.unit == "manifest entry") | {id, _name}]' ${{ inputs.checkbox_expend }}  > manifest_entries.json
