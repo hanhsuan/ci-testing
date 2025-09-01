@@ -1,8 +1,8 @@
 name: release testing
 
 on:
-  schedule:
-    - cron: '0 0 1 * *' # Run monthly on the first day of the month
+  # schedule:
+  #   - cron: '0 0 1 * *' # Run monthly on the first day of the month
   workflow_dispatch:
 
 
